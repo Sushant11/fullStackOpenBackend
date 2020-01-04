@@ -22,7 +22,9 @@ mongoose.connect(url, { useNewUrlParser: true });
 let persons = [];
 
 app.get("/api/persons", (req, res) => {
-  res.json(persons);
+  Person.find({}).then(persons => {
+    res.json(persons.map(person => person.toJSON()))
+  });
 });
 
 app.get("/info", (req, res) => {
@@ -38,7 +40,7 @@ app.get("/api/persons/:id", (req, res) => {
   const person = persons.find(person => person.id === id);
   if (person) {
     Person.findById(request.params.id).then(note => {
-      response.json(note.toJSON());
+      req.json(note.toJSON());
     });
   } else {
     res.status(404).end();
@@ -51,7 +53,7 @@ app.delete("/api/persons/:id", (req, res) => {
   res.status(204).end();
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
   const randomID = Math.ceil(Math.random() * 100);
 
@@ -65,14 +67,16 @@ app.post("/api/persons", (req, res) => {
         error: "Duplicate"
       });
     }
-    const person = {
+    const person = new Person({
       name: body.name,
       number: body.number,
       id: randomID
-    };
+    });
 
-    persons = persons.concat(person);
-    res.json(person);
+    person.save().then(savedPerson => {
+      res.json(savedPerson.toJSON())
+    })
+    .catch(error => next(error))
   }
 });
 
@@ -81,6 +85,20 @@ const unknownEndpoint = (request, response) => {
 };
 
 app.use(unknownEndpoint);
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error)
+}
+
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server running on Port ${PORT}`);
