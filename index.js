@@ -1,15 +1,23 @@
+// require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001;
 const cors = require("cors");
+const mongoose = require("mongoose");
+const Person = require("./models/person");
 
 app.use(bodyParser.json());
 
 app.use(cors());
-app.use(express.static('build'))
-app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+app.use(express.static("build"));
+app.use(
+  morgan(":method :url :status :res[content-length] - :response-time ms")
+);
+const url = `mongodb+srv://chtre:Asdfgh1!@phonebook-tlhsa.mongodb.net/test?retryWrites=true&w=majority`;
+
+mongoose.connect(url, { useNewUrlParser: true });
 
 let persons = [];
 
@@ -29,7 +37,9 @@ app.get("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
   const person = persons.find(person => person.id === id);
   if (person) {
-    res.json(person);
+    Person.findById(request.params.id).then(note => {
+      response.json(note.toJSON());
+    });
   } else {
     res.status(404).end();
   }
