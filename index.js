@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require('dotenv').config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -8,7 +7,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Person = require("./models/person");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 
@@ -16,7 +15,7 @@ app.use(cors());
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
-const url = 'mongodb+srv://chtre:Asdfgh1!@phonebook-tlhsa.mongodb.net/test?retryWrites=true&w=majority';
+const url = process.env.MONGOBD_URI;
 mongoose.connect(url, { useNewUrlParser: true });
 
 let persons = [];
