@@ -21,13 +21,13 @@ app.get("/api/persons", (req, res) => {
   });
 });
 
-// app.get("/info", (req, res) => {
-//   let personLength = persons.length;
-//   const date = new Date();
-//   res.send(
-//     `<h4>PhoneBook has info for ${personLength} people</h4><br/>${date}`
-//   );
-// });
+app.get("/info", (req, res) => {
+  let personLength = Person.length;
+  const date = new Date();
+  res.send(
+    `<h4>PhoneBook has info for ${personLength} people</h4><br/>${date}`
+  );
+});
 
 app.get("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
