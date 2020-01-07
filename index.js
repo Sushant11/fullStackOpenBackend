@@ -15,7 +15,7 @@ app.use(express.static("build"));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
-const url = process.env.MONGOBD_URI;
+const url = process.env.MONGOBD_URI || 'mongodb+srv://chtre:Asdfgh1!@phonebook-tlhsa.mongodb.net/test?retryWrites=true&w=majority' ;
 
 mongoose.connect(url, { useNewUrlParser: true });
 
