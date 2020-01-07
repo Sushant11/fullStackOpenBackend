@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+app.use(express.static("build"));
 require('dotenv').config();
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -11,7 +12,6 @@ const PORT = process.env.PORT;
 app.use(bodyParser.json());
 
 app.use(cors());
-app.use(express.static("build"));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
