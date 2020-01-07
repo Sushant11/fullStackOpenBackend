@@ -5,7 +5,6 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 const cors = require("cors");
-const mongoose = require("mongoose");
 const Person = require("./models/person");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 3001;
@@ -14,12 +13,10 @@ app.use(express.static("build"));
 app.use(bodyParser.json());
 
 app.use(cors());
+
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
-const url = process.env.MONGOBD_URI;
-
-mongoose.connect(url, { useNewUrlParser: true });
 
 let persons = [];
 
