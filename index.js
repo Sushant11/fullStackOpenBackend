@@ -15,6 +15,8 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 
+let persons = [];
+
 app.get("/api/persons", (req, res) => {
   Person.find({}).then(persons => {
     res.json(persons.map(person => person.toJSON()));
