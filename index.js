@@ -49,7 +49,6 @@ app.delete("/api/persons/:id", (req, res, next) => {
 
 app.post("/api/persons", (req, res, next) => {
   const body = req.body;
-  const randomID = Math.ceil(Math.random() * 100);
 
   if (!body.name) {
     return res.status(400).json({
@@ -59,7 +58,7 @@ app.post("/api/persons", (req, res, next) => {
     const person = new Person({
       name: body.name,
       number: body.number,
-      id: randomID
+      id: body.id
     });
 
     person
