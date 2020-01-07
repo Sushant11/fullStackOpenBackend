@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -15,13 +15,14 @@ app.use(express.static("build"));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
-const url = `mongodb+srv://chtre:Asdfgh1!@phonebook-tlhsa.mongodb.net/test?retryWrites=true&w=majority`;
+const url = process.env.MONGOBD_URI;
 
 mongoose.connect(url, { useNewUrlParser: true });
 
-let persons = [];
+// let persons = [];
 
 app.get("/api/persons", (req, res) => {
+  console.log('asds');
   Person.find({}).then(persons => {
     res.json(persons.map(person => person.toJSON()));
   });
