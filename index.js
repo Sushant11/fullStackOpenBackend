@@ -6,7 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Person = require("./models/person");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 
@@ -15,8 +15,7 @@ app.use(express.static("build"));
 app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
-const url = process.env.MONGOBD_URI || 'mongodb+srv://chtre:Asdfgh1!@phonebook-tlhsa.mongodb.net/test?retryWrites=true&w=majority' ;
-
+const url = process.env.MONGOBD_URI;
 mongoose.connect(url, { useNewUrlParser: true });
 
 let persons = [];
