@@ -7,7 +7,6 @@ const app = express();
 const cors = require("cors");
 const Person = require("./models/person");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 3001;
 
 app.use(express.static("build"));
 app.use(bodyParser.json());
@@ -101,6 +100,7 @@ const errorHandler = (error, request, response, next) => {
 
 app.use(errorHandler);
 
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on Port ${PORT}`);
 });
