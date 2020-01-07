@@ -15,8 +15,6 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 
-let persons = [];
-
 app.get("/api/persons", (req, res) => {
   Person.find({}).then(persons => {
     res.json(persons.map(person => person.toJSON()));
@@ -58,11 +56,6 @@ app.post("/api/persons", (req, res, next) => {
       error: "content missing"
     });
   } else {
-    if (persons.find(item => item.name === body.name)) {
-      return res.status(400).json({
-        error: "Duplicate"
-      });
-    }
     const person = new Person({
       name: body.name,
       number: body.number,
