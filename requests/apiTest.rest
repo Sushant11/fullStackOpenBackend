@@ -7,3 +7,5 @@ Content-Type: application/json
     "name" : "Arto Hellas",
     "number" : "232132"
 }
+
+GET http://localhost:3002/api/persons
