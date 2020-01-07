@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config()
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -17,21 +15,19 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms")
 );
 
-let persons = [];
-
 app.get("/api/persons", (req, res) => {
   Person.find({}).then(persons => {
     res.json(persons.map(person => person.toJSON()));
   });
 });
 
-app.get("/info", (req, res) => {
-  let personLength = persons.length;
-  const date = new Date();
-  res.send(
-    `<h4>PhoneBook has info for ${personLength} people</h4><br/>${date}`
-  );
-});
+// app.get("/info", (req, res) => {
+//   let personLength = persons.length;
+//   const date = new Date();
+//   res.send(
+//     `<h4>PhoneBook has info for ${personLength} people</h4><br/>${date}`
+//   );
+// });
 
 app.get("/api/persons/:id", (req, res) => {
   const id = Number(req.params.id);
