@@ -19,10 +19,9 @@ const url = process.env.MONGOBD_URI;
 
 mongoose.connect(url, { useNewUrlParser: true });
 
-// let persons = [];
+let persons = [];
 
 app.get("/api/persons", (req, res) => {
-  console.log('asds');
   Person.find({}).then(persons => {
     res.json(persons.map(person => person.toJSON()));
   });
